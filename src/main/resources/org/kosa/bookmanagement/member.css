@@ -1,0 +1,30 @@
+/* member.css */
+
+/* 전체 배경 색상 */
+.root {
+    -fx-background-color: #FFFFFF; /* 흰색 */
+}
+
+/* 버튼 디자인 */
+.button {
+    -fx-background-color: #87CEEB; /* 하늘색 */
+    -fx-text-fill: white; /* 글자색 흰색 */
+}
+
+/* 텍스트 필드 디자인 */
+.text-field {
+    -fx-background-color: #FFFFFF; /* 흰색 */
+    -fx-border-color: #afb2b3; /* 회색 테두리 */
+}
+
+/* signUpButton 스타일 */
+#signUpButton {
+    -fx-background-color: transparent; /* 배경 투명 */
+    -fx-text-fill: #87CEEB; /* 글자색 하늘색 */
+    -fx-cursor: hand; /* 마우스 커서를 손 모양으로 변경 */
+}
+
+#deleteAccountButton {
+    -fx-background-color: #b6b8b8; /* 하늘색 */
+    -fx-text-fill: white; /* 글자색 흰색 */
+}

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.kosa.bookmanagement.controller.RentController" prefHeight="600" prefWidth="800">
+    <VBox layoutX="10" layoutY="10" prefHeight="580" prefWidth="780" spacing="10">
+        <HBox spacing="10">
+            <Button fx:id="extendButton" text="연장" onAction="#handleExtend" disable="true"/>
+            <Button fx:id="returnButton" text="반납" onAction="#handleReturn" disable="true"/>
+        </HBox>
+        <TableView fx:id="rentalsTable" VBox.vgrow="ALWAYS" prefHeight="500" prefWidth="800">
+            <columns>
+                <TableColumn fx:id="titleColumn" text="제목" prefWidth="226" />
+                <TableColumn fx:id="authorColumn" text="저자" prefWidth="160" />
+                <TableColumn fx:id="rentDateColumn" text="대출일" prefWidth="150" />
+                <TableColumn fx:id="returnDateColumn" text="반납예정일" prefWidth="150" />
+                <TableColumn fx:id="extendedColumn" text="연장" prefWidth="80" />
+                <TableColumn fx:id="statusColumn" text="상태" prefWidth="80" />
+            </columns>
+        </TableView>
+    </VBox>
+</AnchorPane>

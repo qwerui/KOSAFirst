@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<AnchorPane prefHeight="433.0" prefWidth="441.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <AnchorPane prefHeight="386.0" prefWidth="441.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <GridPane prefHeight="202.0" prefWidth="258.0">
+              <columnConstraints>
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="152.66668701171875" minWidth="10.0" prefWidth="81.99995549519856" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="239.33333333333337" minWidth="10.0" prefWidth="194.66671117146814" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label text="ISBN" />
+                  <Label text="서명" GridPane.rowIndex="1" />
+                  <Label text="저자" GridPane.rowIndex="2" />
+                  <Label text="출판사" GridPane.rowIndex="3" />
+                  <Label text="분류명" GridPane.rowIndex="4" />
+                  <Label text="발행년도" GridPane.rowIndex="5" />
+                  <TextField fx:id="inputISBN" GridPane.columnIndex="1" />
+                  <TextField fx:id="inputTitle" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <TextField fx:id="inputAuthor" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <TextField fx:id="inputPublisher" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <TextField fx:id="inputPublishYear" promptText="YYYY" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                  <ChoiceBox fx:id="categoryChoice" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+               </children>
+            </GridPane>
+            <Button fx:id="deleteISBNButton" layoutX="387.0" layoutY="3.0" mnemonicParsing="false" stylesheets="@book.css" text="삭제" />
+            <Button fx:id="selectISBNButton" layoutX="258.0" layoutY="3.0" mnemonicParsing="false" stylesheets="@book.css" text="조회" />
+            <Button fx:id="updateISBNButton" layoutX="310.0" layoutY="3.0" mnemonicParsing="false" stylesheets="@book.css" text="추가/수정" />
+            <TextArea fx:id="resultTextArea" editable="false" layoutX="14.0" layoutY="317.0" prefHeight="102.0" prefWidth="413.0" />
+            <Label layoutX="14.0" layoutY="303.0" text="실행 결과" />
+            <Button fx:id="bookInsertButton" layoutX="258.0" layoutY="292.0" mnemonicParsing="false" stylesheets="@book.css" text="도서추가" />
+            <Button fx:id="bookDeleteButton" layoutX="363.0" layoutY="292.0" mnemonicParsing="false" stylesheets="@book.css" text="도서삭제" />
+            <Button fx:id="addAuthorButton" layoutX="258.0" layoutY="72.0" mnemonicParsing="false" stylesheets="@book.css" text="추가" />
+            <Button fx:id="resetAuthorButton" layoutX="298.0" layoutY="72.0" mnemonicParsing="false" stylesheets="@book.css" text="리셋" />
+            <Separator layoutY="201.0" prefHeight="3.0" prefWidth="441.0" />
+            <GridPane layoutX="14.0" layoutY="203.0" prefHeight="60.0" prefWidth="248.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="95.33331298828125" minWidth="10.0" prefWidth="54.66664632161458" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="197.3333574930827" minWidth="10.0" prefWidth="189.33335367838544" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label text="도서번호" />
+                  <Label text="위치" GridPane.rowIndex="1" />
+                  <TextField fx:id="inputBookNumber" promptText="빈 칸은 마지막 번호 추가/삭제" GridPane.columnIndex="1" />
+                  <ChoiceBox fx:id="positionChoice" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+               </children>
+            </GridPane>
+            <Button fx:id="selectBookNumberButton" layoutX="263.0" layoutY="206.0" mnemonicParsing="false" stylesheets="@book.css" text="도서 번호 조회" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

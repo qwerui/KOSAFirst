@@ -1,0 +1,4 @@
+.button {
+    -fx-background-color: #87CEEB; /* 하늘색 */
+    -fx-text-fill: white; /* 글자색 흰색 */
+}

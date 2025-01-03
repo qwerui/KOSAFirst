@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="271.0" prefWidth="376.0" stylesheets="@member.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <Button fx:id="modifyButton" layoutX="86.0" layoutY="193.0" mnemonicParsing="false" prefHeight="22.0" prefWidth="95.0" text="정보수정" />
+        <Button fx:id="rentListButton" layoutX="191.0" layoutY="193.0" mnemonicParsing="false" prefHeight="22.0" prefWidth="95.0" text="내 대출" />
+        <PasswordField fx:id="passwordField1" layoutX="87.0" layoutY="52.0" prefHeight="25.0" prefWidth="200.0" promptText="비밀번호" />
+        <PasswordField fx:id="passwordField2" layoutX="87.0" layoutY="86.0" prefHeight="25.0" prefWidth="200.0" promptText="비밀번호 확인" />
+        <TextField fx:id="nameField" layoutX="87.0" layoutY="120.0" prefHeight="25.0" prefWidth="200.0" promptText="이름" />
+        <TextField fx:id="phoneField" layoutX="86.0" layoutY="154.0" prefHeight="25.0" prefWidth="200.0" promptText="전화번호" />
+        <Button fx:id="deleteAccountButton" layoutX="333.0" layoutY="246.0" mnemonicParsing="false" text="탈퇴" />
+    </children>
+</AnchorPane>

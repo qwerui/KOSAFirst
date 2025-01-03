@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="315.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Button fx:id="searchAuthorButton" layoutX="251.0" layoutY="14.0" mnemonicParsing="false" stylesheets="@book.css" text="검색" />
+      <TextField fx:id="searchAuthorField" layoutX="10.0" layoutY="14.0" prefHeight="22.0" prefWidth="241.0" />
+      <ScrollPane layoutX="10.0" layoutY="36.0" prefHeight="261.0" prefWidth="286.0">
+         <content>
+            <VBox fx:id="searchResultBox" prefHeight="157.0" prefWidth="263.0" />
+         </content>
+      </ScrollPane>
+      <TextField fx:id="beforeAuthorField" layoutX="369.0" layoutY="79.0" />
+      <TextField fx:id="afterAuthorField" layoutX="369.0" layoutY="115.0" />
+      <Label layoutX="316.0" layoutY="83.0" text="기존 저자" />
+      <Label layoutX="316.0" layoutY="119.0" text="새 저자" />
+      <TextField fx:id="authorNumberField" layoutX="370.0" layoutY="36.0" />
+      <Label layoutX="316.0" layoutY="40.0" text="저자 번호" />
+      <Button fx:id="addAuthorButton" layoutX="399.0" layoutY="156.0" mnemonicParsing="false" stylesheets="@book.css" text="추가" />
+      <Button fx:id="modifyAuthorButton" layoutX="466.0" layoutY="156.0" mnemonicParsing="false" stylesheets="@book.css" text="수정" />
+      <Button fx:id="findAuthorButton" layoutX="532.0" layoutY="36.0" mnemonicParsing="false" stylesheets="@book.css" text="찾기" />
+      <Label layoutX="409.0" layoutY="18.0" text="DB에 저자 추가" />
+      <TextArea fx:id="resultArea" layoutX="309.0" layoutY="191.0" prefHeight="105.0" prefWidth="279.0" />
+   </children>
+</AnchorPane>

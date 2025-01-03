@@ -1,0 +1,194 @@
+--시퀀스 및 트리거
+CREATE SEQUENCE rent_seq
+START WITH 1
+INCREMENT BY 1
+NOCACHE;
+
+CREATE SEQUENCE author_seq
+START WITH 1
+INCREMENT BY 1
+NOCACHE;
+
+CREATE OR REPLACE TRIGGER rent_bir
+BEFORE INSERT ON rent
+FOR EACH ROW
+BEGIN
+    SELECT rent_seq.NEXTVAL INTO :NEW.rent_number FROM dual;
+END;
+/
+
+CREATE OR REPLACE TRIGGER author_bir
+BEFORE INSERT ON author
+FOR EACH ROW
+BEGIN
+    SELECT author_seq.NEXTVAL INTO :NEW.author_number FROM dual;
+END;
+/
+
+--기본 데이터 삽입
+INSERT INTO BOOKCATEGORY VALUES('000', '총류');
+INSERT INTO BOOKCATEGORY VALUES('100', '철학');
+INSERT INTO BOOKCATEGORY VALUES('200', '종교');
+INSERT INTO BOOKCATEGORY VALUES('300', '사회과학');
+INSERT INTO BOOKCATEGORY VALUES('400', '자연과학');
+INSERT INTO BOOKCATEGORY VALUES('500', '기술과학');
+INSERT INTO BOOKCATEGORY VALUES('600', '예술');
+INSERT INTO BOOKCATEGORY VALUES('700', '언어');
+INSERT INTO BOOKCATEGORY VALUES('800', '문학');
+INSERT INTO BOOKCATEGORY VALUES('900', '역사');
+
+INSERT INTO POSITION VALUES(1, '종합열람실');
+INSERT INTO POSITION VALUES(2, '제1서고');
+INSERT INTO POSITION VALUES(3, '제2서고');
+INSERT INTO POSITION VALUES(4, 'E북');
+
+--뷰 목록
+--도서 상세 정보 뷰
+CREATE OR REPLACE VIEW BOOKDETAIL AS
+SELECT 
+    b.isbn,
+    b.title,
+    b.publisher,
+    b.publish_year,
+    bc.name AS category_name,
+    LISTAGG(a.name, ', ') WITHIN GROUP (ORDER BY a.name) AS authors
+FROM 
+    BOOK b
+JOIN 
+    AUTHOR_BOOK ab ON b.isbn = ab.isbn
+JOIN 
+    AUTHOR a ON ab.author_number = a.author_number
+JOIN
+    BOOKCATEGORY bc ON b.category = bc.id
+GROUP BY 
+    b.isbn, b.title, b.publisher, b.publish_year, bc.name;
+
+--대출 가능 도서 뷰
+CREATE OR REPLACE VIEW AVAILABLE_BOOK AS
+SELECT 
+    c.isbn AS isbn, 
+    c.book_number AS book_number, 
+    p.name AS position 
+FROM COPY c, POSITION p
+WHERE 
+    c.position_number = p.position_number AND 
+    book_number NOT IN  
+    (
+        SELECT book_number 
+        FROM RENT
+        WHERE isbn = c.isbn AND book_number = c.book_number AND return_date IS NULL
+    );
+
+-- 프로시저 목록
+-- ISBN을 삽입/수정하는 프로시저
+CREATE OR REPLACE PROCEDURE update_isbn(
+    p_isbn VARCHAR2,
+    p_title VARCHAR2,
+    p_publisher VARCHAR2,
+    p_publish_year VARCHAR2,
+    p_category VARCHAR2,
+    p_authors VARCHAR2
+)
+IS
+    v_is_update NUMBER := 0;
+BEGIN
+    BEGIN
+        -- 업데이트 시도
+        UPDATE BOOK
+        SET publisher = p_publisher, publish_year = p_publish_year, title = p_title, category = p_category
+        WHERE isbn = p_isbn;
+        
+        IF SQL%ROWCOUNT = 0 THEN
+            -- 업데이트에 영향받은 행이 없으면 삽입
+            INSERT INTO BOOK VALUES (p_isbn, p_title, p_publisher, p_publish_year, p_category);
+        END IF;
+    END;
+    
+    DELETE FROM AUTHOR_BOOK WHERE isbn = p_isbn;
+    
+    -- 콤마로 저자의 수 구분
+    FOR AUTHOR_INDEX IN 1..REGEXP_COUNT(p_authors, ',')+1
+    LOOP
+        -- 콤마를 구분자로 자르기
+        INSERT INTO AUTHOR_BOOK VALUES (TRIM(REGEXP_SUBSTR(p_authors, '[^,]+', 1, AUTHOR_INDEX)), p_isbn);
+    END LOOP;
+    
+    COMMIT;
+END;
+/
+
+--ISBN 삭제 프로시저
+CREATE OR REPLACE PROCEDURE delete_isbn(p_isbn VARCHAR2)
+IS
+BEGIN
+    DELETE FROM COPY WHERE isbn = p_isbn;
+    DELETE FROM AUTHOR_BOOK WHERE isbn = p_isbn;
+    DELETE FROM BOOK WHERE isbn = p_isbn;
+    COMMIT;
+END;
+/
+
+--사본을 삽입/수정하는 프로시저
+CREATE OR REPLACE PROCEDURE update_copy (
+    p_isbn VARCHAR2,
+    p_number NUMBER,
+    p_position NUMBER
+)
+IS
+    v_last_number NUMBER;
+BEGIN
+    IF p_number = 0 THEN
+        BEGIN
+            SELECT MAX(book_number) + 1
+            INTO v_last_number
+            FROM COPY
+            WHERE isbn = p_isbn;
+            
+            IF v_last_number IS NULL THEN
+                INSERT INTO COPY VALUES(1, p_isbn, p_position);
+            ELSE
+                INSERT INTO COPY VALUES(v_last_number, p_isbn, p_position);
+            END IF;   
+        END;
+    ELSE
+        BEGIN
+            UPDATE COPY
+            SET position_number = p_position
+            WHERE isbn = p_isbn AND book_number = p_number;
+            
+            IF SQL%ROWCOUNT = 0 THEN
+                INSERT INTO COPY VALUES(p_number, p_isbn, p_position);
+            END IF;
+        END;
+    END IF;
+    
+    COMMIT;
+END;
+/
+
+--사본 삭제 프로시저
+CREATE OR REPLACE PROCEDURE delete_copy(
+    p_isbn VARCHAR2,
+    p_number NUMBER
+)
+IS
+    v_last_number NUMBER;
+BEGIN
+    IF p_number = 0 THEN
+        SELECT MAX(book_number)
+        INTO v_last_number
+        FROM COPY
+        WHERE isbn = p_isbn;
+        
+        IF v_last_number IS NOT NULL THEN
+            DELETE
+            FROM COPY
+            WHERE isbn = p_isbn AND book_number = v_last_number;
+        END IF;
+    ELSE
+        DELETE
+        FROM COPY
+        WHERE isbn = p_isbn AND book_number = p_number;
+    END IF;
+END;
+/
